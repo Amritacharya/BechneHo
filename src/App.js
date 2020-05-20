@@ -9,6 +9,7 @@ const loading = () => (
 );
 
 const DefaultLayout = React.lazy(() => import("./containers/DefaultLayout"));
+const ChatPage = React.lazy(() => import("./components/ChatPage"));
 class App extends Component {
   render() {
     return (
@@ -17,6 +18,7 @@ class App extends Component {
           <Router history={history}>
             <React.Suspense fallback={loading()}>
               <Switch>
+                <Route path="/chat" exact component={(props) => <ChatPage />} />
                 <Route path="/" component={(props) => <DefaultLayout />} />
               </Switch>
             </React.Suspense>

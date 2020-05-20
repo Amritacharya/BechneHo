@@ -20,6 +20,7 @@ class HomePage extends Component {
           price={product[0].price}
           profilepic={product[0].user.profile_pic}
           ads_validity={product[0].ads_validity}
+          product={product[0]}
         />
       );
     });
