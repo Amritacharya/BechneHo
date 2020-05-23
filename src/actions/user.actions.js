@@ -39,24 +39,10 @@ function login(username, password) {
 }
 
 function logout() {
-  return async (dispatch, getState) => {
-    const { user, loggingOut } = getState().authentication;
-
-    if (!loggingOut) {
-      if (user) {
-        try {
-          dispatch({ type: userConstants.LOGOUT_REQUEST });
-          history.push("/login");
-
-          return { type: userConstants.LOGOUT };
-        } catch (error) {
-          return { type: userConstants.LOGOUT_FAILURE };
-        }
-      } else {
-        history.push("/login");
-        return { type: userConstants.LOGOUT };
-      }
-    }
+  return async (dispatch) => {
+    localStorage.removeItem("user");
+    dispatch({ type: userConstants.LOGOUT });
+    history.push("/login");
   };
 }
 
@@ -68,11 +54,9 @@ function register(user) {
       () => {
         dispatch(success());
         history.push("/login");
-        // dispatch(alertActions.success('Registration successful'));
       },
       (error) => {
         dispatch(failure(error));
-        // dispatch(alertActions.error(error));
       }
     );
   };

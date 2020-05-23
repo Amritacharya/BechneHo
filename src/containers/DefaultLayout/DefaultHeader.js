@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+
+import { connect } from "react-redux";
 import {
   UncontrolledDropdown,
   DropdownItem,
@@ -14,12 +16,8 @@ import PropTypes from "prop-types";
 import { AppNavbarBrand } from "@coreui/react";
 import logo from "../../assets/logo_splash.png";
 import sygnet from "../../assets/logo_splash.png";
-const propTypes = {
-  children: PropTypes.node,
-};
 
-const defaultProps = {};
-
+import { userActions } from "../../actions";
 class DefaultHeader extends Component {
   render() {
     // eslint-disable-next-line
@@ -96,7 +94,7 @@ class DefaultHeader extends Component {
 
                 <DropdownItem divider />
 
-                <DropdownItem onClick={(e) => this.props.onLogout(e)}>
+                <DropdownItem onClick={this.props.logoutUser}>
                   <i className="fa fa-lock"></i> Logout
                 </DropdownItem>
               </DropdownMenu>
@@ -116,7 +114,27 @@ class DefaultHeader extends Component {
   }
 }
 
-DefaultHeader.propTypes = propTypes;
-DefaultHeader.defaultProps = defaultProps;
+DefaultHeader.propTypes = {
+  logoutUser: PropTypes.func,
+};
+function mapStateToProps(state) {
+  const { users, authentication } = state;
+  const { user } = authentication;
+  return {
+    user,
+    users,
+  };
+}
 
-export default DefaultHeader;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch(userActions.logout()),
+  };
+};
+
+const connectedHomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DefaultHeader);
+
+export { connectedHomePage as DefaultHeader };

@@ -18,6 +18,7 @@ export function authentication(state = initialState, action) {
         ...state,
         loggingIn: true,
         user: action.user,
+        error: false,
       };
     case userConstants.LOGIN_SUCCESS:
       return {
@@ -25,6 +26,7 @@ export function authentication(state = initialState, action) {
         loggedIn: true,
         loggingIn: false,
         user: action.user,
+        error: false,
       };
     case userConstants.LOGIN_FAILURE:
       return {
